@@ -99,7 +99,7 @@ Plataforma integral de gestión para refaccionarias automotrices. Dashboard inte
 
 | Componente | Tecnología |
 |-----------|-----------|
-| Frontend | Next.js 14 App Router + TypeScript |
+| Frontend | Next.js 16 App Router + TypeScript |
 | Styling | Tailwind CSS + shadcn/ui |
 | Backend | Supabase (PostgreSQL + Auth + Edge Functions) |
 | Estado | TanStack Query (React Query) |

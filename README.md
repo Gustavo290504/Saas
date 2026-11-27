@@ -1,79 +1,54 @@
-# SaaS Refaccionaria — Estructura del Proyecto
+# SaaS para refaccionarias
 
-## 📁 Estructura de Carpetas
+Plataforma web de gestión para refaccionarias automotrices: inventario, ventas, reportes y administración de usuarios. **Proyecto en desarrollo**: el inventario y la autenticación funcionan; el punto de venta, el dashboard y la facturación están en el [roadmap](ROADMAP.md).
+
+## Qué funciona hoy
+
+- Autenticación con Supabase Auth y rutas protegidas por middleware.
+- Onboarding: el primer usuario registrado queda como administrador.
+- Administración de usuarios (solo admin): alta de usuarios desde `/usuarios` mediante una ruta de API del servidor.
+- Inventario: alta, edición y baja de productos, con categorías y proveedores.
+- Seguridad a nivel de fila (RLS) en las tablas de Supabase.
+
+## Qué sigue
+
+Dashboard con KPIs y gráficas (Recharts), punto de venta, facturación electrónica CFDI 4.0 con Facturapi y multi-tenant. Detalle por fases en [ROADMAP.md](ROADMAP.md).
+
+## Stack
+
+| Capa | Tecnología |
+|---|---|
+| Frontend | Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS 4 |
+| Backend y datos | Supabase (PostgreSQL, Auth, RLS) |
+| Gráficas | Recharts |
+| Facturación (planeada) | Facturapi.io (CFDI 4.0) |
+
+## Estructura
 
 ```
-SaaS/
-├── frontend/              # Next.js 14 App Router + TypeScript + Tailwind
-│   ├── app/              # Rutas y páginas
-│   ├── components/       # Componentes React reutilizables
-│   ├── lib/             # Utilidades y configuración (Supabase, etc.)
-│   ├── types/           # Tipos TypeScript
-│   ├── public/          # Archivos estáticos
-│   ├── package.json
-│   └── ...
-│
-├── backend/              # Edge Functions + Lógica (próximamente)
-│   └── supabase/
-│       ├── functions/   # Edge Functions
-│       └── migrations/  # (será en db/)
-│
-├── db/                   # Base de datos
-│   └── migrations/       # Migraciones Supabase
-│
-├── ROADMAP.md           # Fases del proyecto
-└── README.md            # Este archivo
+frontend/   Next.js: app/ (rutas), components/, lib/supabase/, middleware.ts
+backend/    Edge Functions de Supabase (pendiente)
+db/         Migraciones (pendiente)
+ROADMAP.md  Fases del proyecto
 ```
 
----
-
-## 🚀 Para Iniciar
-
-### 1. Instalar dependencias (si no están instaladas)
+## Cómo correrlo
 
 ```bash
 cd frontend
 npm install
 ```
 
-### 2. Configurar variables de entorno
-
-Crear archivo `frontend/.env.local`:
+Crea `frontend/.env.local` con las llaves de tu proyecto de Supabase:
 
 ```env
 NEXT_PUBLIC_SUPABASE_URL=https://tu-proyecto.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=tu-clave-anonima
+NEXT_PUBLIC_SUPABASE_ANON_KEY=tu-clave-publica
+SUPABASE_SERVICE_ROLE_KEY=tu-clave-de-servicio   # solo en el servidor
 ```
-
-### 3. Iniciar dev server
 
 ```bash
-cd frontend
-npm run dev
+npm run dev   # http://localhost:3000
 ```
 
-### 4. Ver la app en el navegador
-
-**http://localhost:3000**
-
----
-
-## 📋 Credenciales de Prueba
-
-Usa la página de login para autenticarte. Necesitarás crear un usuario en Supabase primero.
-
----
-
-## 🗄️ Stack Tecnológico
-
-| Componente | Tecnología |
-|-----------|-----------|
-| Frontend | Next.js 14 + TypeScript + Tailwind |
-| Backend | Supabase (PostgreSQL + Auth + Edge Functions) |
-| Facturación | Facturapi.io (CFDI 4.0) |
-
----
-
-## 📊 Roadmap
-
-Ver `ROADMAP.md` para detalles de fases y sprints.
+Las tablas que usa hoy son `profiles`, `categories`, `suppliers` y `products`. Entra a `/setup` para crear el primer administrador.
